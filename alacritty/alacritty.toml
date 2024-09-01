@@ -1,0 +1,27 @@
+[window]
+opacity = 0.9
+padding.x = 5
+padding.y = 5
+decorations = "Full"
+decorations_theme_variant = "Dark" # "Dark"
+
+[font]
+normal.family = "JetBrainsMono Nerd Font"
+normal.style = "Regular"
+bold.family = "JetBrainsMono Nerd Font"
+bold.style = "Bold"
+italic.family = "JetBrainsMono Nerd Font"
+italic.style = "Italic"
+bold_italic.family = "JetBrainsMono Nerd Font"
+bold_italic.style = "Bold Italic"
+size = 12.0
+
+[scrolling]
+history = 10000
+
+[mouse]
+hide_when_typing = true
+
+[cursor]
+style = "Beam"
+

@@ -4,8 +4,7 @@
 }
 
 window#waybar {
-    /* `otf-font-awesome` is required to be installed for icons */
-    font-family: 'JetBrains Mono Nerd Font', FontAwesome, monospace;
+    font-family: 'JetBrainsMono Nerd Font', FontAwesome, monospace;
     background-color: transparent;
     border-bottom: 0px;
     color: #ebdbb2;
@@ -155,11 +154,6 @@ label:focus {
 #mpris.playing {
     background-color: #d79921;
     color: #282828;
-}
-
-#mpris.stopped {
-    background-color: transparent;
-    color: #ebdbb2;
 }
 
 #tray menu {
