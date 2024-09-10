@@ -32,7 +32,7 @@ return {
 				capabilities = capabilities,
 			})
 
-			lspconfig.custom_elements_ls.setup({
+			lspconfig.ts_ls.setup({
 				capabilities = capabilities,
 			})
 
