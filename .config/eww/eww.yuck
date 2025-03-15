@@ -1,0 +1,20 @@
+(defwidget bluelight []
+  (box :class "temp-select" :orientation "v"
+    (label :class "title" :text "Bluelight Filter")
+    (box :class "buttons"
+      (button :onclick "hyprsunset -t 6500 &" "Normal")
+      (button :onclick "hyprsunset -t 4500 &" "Warm")
+      (button :onclick "hyprsunset -t 3500 &" "Warmer")
+    )
+  )
+)
+
+
+(defwindow bluelight
+  :monitor 0
+  :stacking "overlay"
+  :geometry (geometry :anchor "center" :width 400 :height 160)
+  :exclusive true
+  (bluelight)
+)
+
