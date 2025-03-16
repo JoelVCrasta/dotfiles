@@ -1,7 +1,7 @@
 $col_text: #ebdbb2;
 $col_dark: #282828;
 $col_yellow: #d79921;
-$col_yellow2: #665c54;
+$col_gray: #333333;
 $col_blue: #458587;
 
 * {
@@ -31,17 +31,18 @@ $col_blue: #458587;
 }
 
 button {
-  background-color: $col_blue;
+  background-color: $col_gray;
   border: none;
   border-radius: 5px;
   padding: 10px 20px;
   color: $col_text; 
-  font-size: 14px;
-  transition: background-color 200ms ease;
+  font-size: 16px;
+  transition: all 200ms ease;
 }
 
 button:hover {
-  background-color: $col_yellow2;
+  color: $col_yellow;
+  background-color: $col_blue;
 }
 
 .close-btn {
