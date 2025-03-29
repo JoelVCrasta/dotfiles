@@ -14,12 +14,11 @@
     ],
     "modules-right": [
         "idle_inhibitor",
-      	"cpu",
 	      "memory",
-	      "temperature",
 	      "wireplumber",
         "backlight",
         "clock",
+        "custom/battery_power",
         "battery",
 	      "tray"
     ],
@@ -69,22 +68,9 @@
         "tooltip-format": "<big>{:%Y %B}</big>\n<tt><small>{calendar}</small></tt>",
         "format-alt": "{:%Y-%m-%d}"
     },
-    "cpu": {
-        "format": "  {usage}%",
-        "tooltip": false
-    },
     "memory": {
         "format": "  {}%",
 	      "tooltip": false
-    },
-    "temperature": {
-        // "thermal-zone": 2,
-        // "hwmon-path": "/sys/class/hwmon/hwmon2/temp1_input",
-        "critical-threshold": 80,
-        // "format-critical": "{temperatureC}°C {icon}",
-        "format": "{icon} {temperatureC}°C",
-        "format-icons": ["", "", ""],
-        "tooltip": false
     },
     "backlight": {
         // "device": "acpi_video1",
@@ -93,7 +79,6 @@
     },
     "battery": {
         "states": {
-            // "good": 95,
             "warning": 30,
             "critical": 15
         },
@@ -102,10 +87,13 @@
         "format-charging": " {capacity}%",
         "format-plugged": " {capacity}%",
         "format-alt": "{icon} {time}",
-        // "format-good": "", // An empty format will hide the module
-        // "format-full": "",
         "format-icons": [" ", " ", " ", " ", " "],
-	"tooltip": false
+	      "tooltip": false
+    },
+    "custom/battery_power": {
+        "exec": "awk '{printf \" %.2fW\", $1/1000000}' /sys/class/power_supply/BAT1/power_now",
+        "interval": 10,
+        "tooltip": false
     },
     "wireplumber": {
         "scroll-step": 5, // %, can be a float
