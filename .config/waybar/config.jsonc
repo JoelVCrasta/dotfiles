@@ -1,113 +1,109 @@
 // -*- mode: jsonc -*-
-[{
+[
+  {
     "output": ["eDP-1"],
-    "height": 39, // Waybar height (to be removed for auto height)
-    "spacing": 4, // Gaps between modules (4px)
+    "height": 40,
+    "spacing": 4,
 
     // Choose the order of the modules
-    "modules-left": [
-        "hyprland/workspaces",
-	      "mpris"
-    ],
-    "modules-center": [
-        "hyprland/window"
-    ],
+    "modules-left": ["hyprland/workspaces", "mpris"],
+    "modules-center": ["hyprland/window"],
     "modules-right": [
-        "idle_inhibitor",
-	      "memory",
-	      "wireplumber",
-        "backlight",
-        "clock",
-        "custom/battery_power",
-        "battery",
-	      "tray"
+      "idle_inhibitor",
+      "wireplumber",
+      "backlight",
+      "battery",
+      "clock",
+      "tray"
     ],
 
     // Modules configuration
     "hyprland/workspaces": {
-        "all-outputs": true,
-        "warp-on-scroll": false,
-        "enable-bar-scroll": true,
-        "disable-scroll-wraparound": true
+      "all-outputs": true,
+      "warp-on-scroll": false,
+      "enable-bar-scroll": true,
+      "disable-scroll-wraparound": true
     },
     "hyprland/window": {
-        "format": "{title}",
-	      "min-length": 10,
-        "max-length": 40,
-        "all-outputs": true
+      "format": "{title}",
+      "min-length": 10,
+      "max-length": 40,
+      "all-outputs": true
     },
     "mpris": {
- 	      "format": " {status_icon} {dynamic}",
-  	    "interval": 1,
-        "dynamic-len": 40,
-	      "status-icons": {
-		        "playing": "▶",
-		        "paused": "⏸", 
-		        "stopped": ""
-	      },
-	      "dynamic-order": ["title", "artist"],
-	      "ignored-players": ["firefox"],
-        "format-empty": "ᓚ₍ ^. .^₎"
+      "format": " {status_icon} {dynamic}",
+      "interval": 1,
+      "dynamic-len": 40,
+      "status-icons": {
+        "playing": "▶",
+        "paused": "⏸",
+        "stopped": ""
+      },
+      "dynamic-order": ["title", "artist"],
+      "ignored-players": ["firefox"],
+      "format-empty": "ᓚ₍ ^. .^₎"
     },
     "idle_inhibitor": {
-        "format": "{icon}",
-        "format-icons": {
-            "activated": " ",
-            "deactivated": " "
-        }
+      "format": "{icon}",
+      "format-icons": {
+        "activated": " ",
+        "deactivated": " "
+      }
     },
     "tray": {
-        "icon-size": 14,
-        "spacing": 10
+      "icon-size": 14,
+      "spacing": 10
     },
     "load": {
-        "format": "  {}"
+      "format": "  {}"
     },
     "clock": {
-        // "timezone": "America/New_York",
-        "tooltip-format": "<big>{:%Y %B}</big>\n<tt><small>{calendar}</small></tt>",
-        "format-alt": "{:%Y-%m-%d}"
-    },
-    "memory": {
-        "format": "  {}%",
-	      "tooltip": false
+      "format": "{:%I:%M %p}",
+      "tooltip-format": "<big>{:%Y %B}</big>\n<tt><small>{calendar}</small></tt>",
+      "format-alt": "{:%Y-%m-%d}"
     },
     "backlight": {
-        // "device": "acpi_video1",
-        "format": "{icon}{percent}%",
-        "format-icons": [" ", " ", " ", " ", " ", " ", " ", " ", " "]
+      // "device": "acpi_video1",
+      "format": "{icon}{percent}%",
+      "format-icons": [
+        "  ",
+        "  ",
+        "  ",
+        "  ",
+        "  ",
+        "  ",
+        "  ",
+        "  ",
+        "  "
+      ]
     },
     "battery": {
-        "states": {
-            "warning": 30,
-            "critical": 15
-        },
-        "format": "{icon} {capacity}%",
-        "format-full": "{icon} {capacity}%",
-        "format-charging": " {capacity}%",
-        "format-plugged": " {capacity}%",
-        "format-alt": "{icon} {time}",
-        "format-icons": [" ", " ", " ", " ", " "],
-	      "tooltip": false
-    },
-    "custom/battery_power": {
-        "exec": "awk '{printf \" %.2fW\", $1/1000000}' /sys/class/power_supply/BAT1/power_now",
-        "interval": 10,
-        "tooltip": false
+      "states": {
+        "warning": 30,
+        "critical": 15
+      },
+      "format": "{icon} {capacity}%",
+      "format-full": "{icon} {capacity}%",
+      "format-charging": " {capacity}%",
+      "format-plugged": " {capacity}%",
+      "format-alt": "{icon} {time}",
+      "format-icons": [" ", " ", " ", " ", " "],
+      "tooltip": false
     },
     "wireplumber": {
-        "scroll-step": 5, // %, can be a float
-        "format": "{icon} {volume}%",
-        "format-bluetooth": "{icon} {volume}% ",
-        "format-bluetooth-muted": " {icon}",
-        "format-muted": "",
-        "format-icons": {
-            "headphone": " ",
-            "phone": " ",
-            "portable": " ",
-            "car": " ",
-            "default": [" ", " ", " "]
-        },
-        "on-click": "wpctl set-mute @DEFAULT_AUDIO_SINK@ toggle"
+      "scroll-step": 5, // %, can be a float
+      "format": "{icon} {volume}%",
+      "format-bluetooth": "{icon} {volume}% ",
+      "format-bluetooth-muted": " {icon}",
+      "format-muted": "",
+      "format-icons": {
+        "headphone": " ",
+        "phone": " ",
+        "portable": " ",
+        "car": " ",
+        "default": [" ", " ", "  "]
+      },
+      "on-click": "wpctl set-mute @DEFAULT_AUDIO_SINK@ toggle"
     }
-}]
+  }
+]
