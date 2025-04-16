@@ -40,6 +40,19 @@ return {
 				capabilities = capabilities,
 			})
 
+      lspconfig.gopls.setup({
+				capabilities = capabilities,
+				settings = {
+					gopls = {
+						analyses = {
+							unusedparams = true,
+							unusedwrite = true,
+						},
+						staticcheck = true,
+					},
+				},
+			})
+
 			vim.keymap.set("n", "K", vim.lsp.buf.hover, { noremap = true, silent = true })
 			vim.keymap.set("n", "gd", vim.lsp.buf.definition, { noremap = true, silent = true })
 			vim.keymap.set("n", "<leader>ca", vim.lsp.buf.code_action, { noremap = true, silent = true })
