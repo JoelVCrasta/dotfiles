@@ -1,8 +1,8 @@
 // GruvBox color scheme
 
 * {
-    background:     #282828FF;
-    background-alt: #313131FF;
+    background:     #282524FF;
+    background-alt: #3D3934FF;
     foreground:     #EBDBB2FF;
     selected:       #458588FF;
     active:         #98971AFF;
