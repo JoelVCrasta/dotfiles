@@ -1,0 +1,225 @@
+(defwidget bar []
+  (centerbox :orientation "h"
+    (title)
+    (middle)
+    (control)))
+
+
+
+(defwidget middle []
+  (centerbox :orientation "h"
+             :class "middle"
+             :width 840
+    (music)
+    (workspaces)
+    (midleft)))
+
+
+
+(defwidget midleft []
+  (box :space-evenly false
+    (clock)
+    (bluelight)))
+
+
+
+(defwidget clock []
+  (box :class "clock"
+       :orientation "h"
+       :space-evenly false
+       :halign "start"
+       :spacing 10
+  (label :class "time"
+         :text "${time}")
+  (label :class "dot"
+         :text "●")
+  (label :class "date"
+         :text "${date}")))
+
+
+
+(defwidget bluelight []
+(box :orientation "h"
+     :space-evenly false
+     :halign "start"
+  (button :class "bluelight"
+          :onclick "scripts/bluelight.sh" 
+          "󰤄")))
+
+
+
+(defwidget workspaces []
+  (box :class "workspaces"
+       :orientation "h"
+       :space-evenly true
+       :halign "center"
+       :spacing 2
+    (workspace-button :id 1)
+    (workspace-button :id 2)
+    (workspace-button :id 3)
+    (workspace-button :id 4)
+    (workspace-button :id 5)
+    (workspace-button :id 6)
+    (workspace-button :id 7)
+    (workspace-button :id 8)
+    (workspace-button :id 9)))
+
+(defwidget workspace-button [id]
+  (button :class {active_workspace == id ? "active" : ""}
+          :onclick "hyprctl dispatch workspace ${id}"
+          id))
+
+
+
+(defwidget music []
+  (box :class {(music_status == "Playing") ? "playing" : "paused"}
+       :orientation "h"
+       :space-evenly false
+       :halign "end"
+       :spacing {(music != "") ? 10 : 0}
+    (box :class "music-progress"
+         :width {(music != "") ? 24 : 0}
+         :halign "start"
+         (circular-progress
+           :value {(music_progress / music_length) * 100}
+           :thickness 2.5
+           :clockwise true
+           :start-at 73
+           (button :onclick "scripts/music.sh play-pause" 
+                   "${(music != "") ? ((music_status == "Playing") ? "" : "") : ""}")))
+    (label :class "music-text"
+           :halign "start"
+           :limit-width 28
+           :text "${(music != "") ? "${music}" : "≧◉◡◉≦ | nothing is playing"}")))
+
+
+
+(defwidget title []
+  (box :class "title"
+       :orientation "h"
+       :space-evenly true
+       :halign "start"
+    (label :limit-width 40 
+           :text "${(window_title != "null") ? window_title : " Hyprland"}")))
+
+
+
+(defwidget control []
+  (box :class "control"
+       :orientation "h"
+       :space-evenly false
+       :halign "end"
+       :spacing 12
+    (volume)
+    (brightness)
+    (battery)))
+
+
+
+(defwidget volume []
+  (eventbox
+    :onhover "eww update vol=true"
+    :onhoverlost "eww update vol=false"
+    (box :orientation "h" 	  
+			   :space-evenly "false"
+      (revealer :transition "slideleft"
+                :reveal vol
+                :duration "0.200ms"
+        (scale :class "volbar" 	  
+			  :value curr_volume
+			  :orientation "h"      
+			  :max 121
+			  :min 0
+        :onchange "wpctl set-volume @DEFAULT_AUDIO_SINK@ {}%"))
+      
+      (button :class "volume-icon"
+              :onclick "scripts/volume.sh"
+        "󰕾"))))
+
+
+
+(defwidget battery []
+  (eventbox :onhover "eww update bat=true"
+            :onhoverlost "eww update bat=false"          
+	  (box  :orientation "h"	
+			    :space-evenly "false"
+      (revealer :transition "slideleft"
+                :reveal bat
+                :duration "0.200ms"
+        (label  :class "battery-percent"
+                :text "${bat-cap}%"))
+
+	    (label	:class "battery"		
+              :halign "end"		
+              :text "${bat-icon}"))))
+
+
+
+(defwidget brightness []
+  (eventbox :onhover "eww update bright=true"   
+  			:onhoverlost "eww update bright=false"
+  			(box  :orientation "h"  
+			  		  :space-evenly "false"  
+  			  (revealer :transition "slideleft" 
+			  		        :reveal bright   
+					          :duration "0.200ms"
+  			    (scale :class "brightness" 
+			  	    :value curr-brightness 
+              :onchange "brightnessctl set {}%" 
+              :orientation "h" 
+              :max 101 
+              :min 0))
+  			(label :class "brightness-icon" 
+			  	   :text "󰃠"))))
+
+
+
+(defwidget network []
+  (box  (label  :class "network"
+              :text "󰇚 ${net-down} 󰕒 ${net-up}")))
+
+(deflisten music :initial "" 
+  "playerctl --follow metadata --format '{{artist}} | {{ title }}' || true")
+
+(defpoll music_progress :interval "1s"
+  "playerctl position || echo 0")
+
+(defpoll music_length :interval "2s"
+  "playerctl metadata mpris:length | awk '{print $1 / 1000000}' || echo 1")
+
+(defpoll music_status :interval "1s"
+  "playerctl status || echo 'Stopped'")
+
+(defpoll time :interval "10s"
+  "date '+%I:%M'")
+
+(defpoll date :interval "60s"
+  "date '+%A, %m/%d'")
+
+(defpoll window_title :interval "0.2s"
+  "hyprctl activewindow -j | jq -r '.title'")
+
+(defpoll active_workspace :interval "0.2s"
+  "hyprctl activeworkspace -j | jq -r '.id'")
+
+(defpoll curr_volume :interval "1s" 
+  "pactl get-sink-volume @DEFAULT_SINK@ | awk '{print $5}' | tr -d '%'")
+
+(defpoll curr-brightness :interval "1s" 
+  "brightnessctl -m | awk -F, '{print substr($4, 0, length($4)-1)}' | tr -d '%'")
+
+(defpoll bat-icon :interval "1s"
+	"scripts/battery.sh icon")
+
+(defpoll bat-cap :interval "1s"
+	"scripts/battery.sh percent")
+
+(defpoll net-up :interval "1s"
+	"eww get EWW_NET | jq .wlo1.NET_UP")
+
+(defpoll net-down :interval "1s"
+	"eww get EWW_NET | jq .wlo1.NET_DOWN")
+
+(defvar vol false)
+(defvar bat false)
+(defvar bright false)
