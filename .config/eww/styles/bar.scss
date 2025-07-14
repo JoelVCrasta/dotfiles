@@ -1,0 +1,176 @@
+$background:     #282524;
+$background-alt: #322f2e;
+$background-alt2: #44403f;
+$foreground:     #EBDBB2;
+$blue:           #458588;
+$green:          #98971A;
+$red:            #CC241D;
+$yellow:         #bb810b;
+$pink:           #B16286;
+$highlight:      #665C54;
+
+* {
+  all: unset;
+}
+
+.bar {
+  //background-color: $background;
+  color: $foreground;
+  border-radius: 5px;
+  font-weight: 300;
+}
+
+.side slider {
+  all: unset;
+  color: #ffd5cd;
+}
+
+.metric scale trough highlight {
+  all: unset;
+  background-color: #D35D6E;
+  color: #000000;
+  border-radius: 10px;
+}
+
+.metric scale trough {
+  all: unset;
+  background-color: #4e4e4e;
+  border-radius: 50px;
+  min-height: 3px;
+  min-width: 50px;
+  margin-left: 10px;
+  margin-right: 20px;
+}
+
+.label-ram {
+  font-size: large;
+}
+ 
+
+// Workspaces
+.workspaces {
+  background-color: $background;
+  border-radius: 12px;
+  padding: 5px;
+
+  button {
+    padding: 0px 8px;
+    border-radius: 20px;
+    transition: all 0.2s ease;
+
+    &:hover {
+      background-color: $highlight;
+      color: $yellow;
+    }
+
+    &.active {
+      background-color: $highlight;
+      color: $yellow;
+      font-weight: 800;
+    }
+  }
+}
+
+// Clock
+.clock {
+  background-color: $background;
+  border-radius: 12px;
+  padding: 4px 10px;
+  margin: 0px 4px;
+}
+.time {
+  font-size: large;
+}
+.dot {
+  font-size:x-small;
+}
+
+// Bluelight
+.bluelight {
+  background-color: $background;
+  border-radius: 20px;
+  padding: 4px 12px;
+  font-size: large;
+}
+
+// Music
+.paused {
+  background-color: $background;
+  color: $foreground;
+  border-radius: 12px;
+  padding: 0px 10px;
+  margin: 0px 5px;
+}
+.playing {
+  background-color: $yellow;
+  color: $background;
+  border-radius: 12px;
+  padding: 0px 10px;
+  margin: 0px 5px;
+}
+.music-progress {
+  font-size:small;
+}
+
+// Title
+.title {
+  border: 1px solid $background-alt2;
+  color: $foreground;
+  border-radius: 12px;
+  padding: 0px 10px;
+  margin: 0px 5px;
+}
+
+// Control
+.control {
+  background-color: $background;
+  border-radius: 12px;
+  padding: 0px 10px;
+  margin: 0px 5px;
+}
+
+// Scale
+scale trough {
+  all: unset;
+  background-color: $background-alt2;
+  border-radius: 5px;
+  min-height: 10px;
+  min-width: 80px;
+  margin: 0px 5px;
+}
+
+// Volume bar
+.volbar trough highlight {
+  background-color: $green;
+  border-radius: 5px;
+}
+.volume-icon{
+  font-size: larger;
+  margin: 0px 5px 0px 0px;
+}
+.volume-value {
+  margin: 0px 0px 0px 5px;
+}
+
+// Battery
+.battery {
+  font-size: larger;
+  margin: 0px 5px 0px 0px;
+}
+
+// Brightness
+.brightness trough highlight {
+  background-color: $pink;
+  border-radius: 5px;
+}
+.brightness-icon {
+  font-size:larger;
+  margin: 0px 5px 0px 0px;
+}
+.brightness-value {
+  margin: 0px 0px 0px 5px;
+}
+
+
+
+// Net-down

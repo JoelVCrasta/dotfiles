@@ -1,5 +1,4 @@
-(include "./widgets/bar.yuck")
-
+(include "widgets/bar.yuck")
 
 (defwindow bar
   :monitor 0

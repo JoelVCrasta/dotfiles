@@ -133,8 +133,8 @@
         :onchange "wpctl set-volume @DEFAULT_AUDIO_SINK@ {}%"))
       
       (button :class "volume-icon"
-              :onclick "scripts/volume.sh"
-        "󰕾"))))
+              :onclick "scripts/volume.sh" "󰕾")
+       (label :class "volume-value" :orientation "v"	:space-evenly "true" :text "${curr_volume}%"))))
 
 
 
@@ -143,15 +143,11 @@
             :onhoverlost "eww update bat=false"          
 	  (box  :orientation "h"	
 			    :space-evenly "false"
-      (revealer :transition "slideleft"
-                :reveal bat
-                :duration "0.200ms"
-        (label  :class "battery-percent"
-                :text "${bat-cap}%"))
-
 	    (label	:class "battery"		
               :halign "end"		
-              :text "${bat-icon}"))))
+              :text "${bat-icon}")
+      (label  :class "battery-percent"
+                :text "${bat-cap}%"))))
 
 
 
@@ -169,8 +165,8 @@
               :orientation "h" 
               :max 101 
               :min 0))
-  			(label :class "brightness-icon" 
-			  	   :text "󰃠"))))
+  			(label :class "brightness-icon" :text "󰃠")
+        (label :class "brightness-value" :orientation "v"	:space-evenly "true" :text "${curr-brightness}%"))))
 
 
 
@@ -181,7 +177,7 @@
 (deflisten music :initial "" 
   "playerctl --follow metadata --format '{{artist}} | {{ title }}' || true")
 
-(defpoll music_progress :interval "1s"
+(defpoll music_progress :interval "2s"
   "playerctl position || echo 0")
 
 (defpoll music_length :interval "2s"
