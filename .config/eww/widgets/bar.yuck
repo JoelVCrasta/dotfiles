@@ -186,15 +186,13 @@
 
 
 (defwidget battery []
-  (eventbox :onhover "eww update bat=true"
-            :onhoverlost "eww update bat=false"          
-	  (box  :orientation "h"	
-			    :space-evenly "false"
-	    (label	:class "battery"		
-              :halign "end"		
-              :text "${bat-icon}")
-      (label  :class "battery-percent"
-                :text "${bat-cap}"))))
+  (box  :orientation "h"	
+        :space-evenly "false"
+    (label	:class "battery"		
+            :halign "end"		
+            :text "${bat-icon}")
+    (label  :class "battery-percent"
+              :text "${bat-cap}%")))
 
 
 
@@ -266,5 +264,4 @@
 
 (defvar vol false)
 (defvar volmute false)
-(defvar bat false)
 (defvar bright false)
