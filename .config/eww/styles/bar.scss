@@ -1,23 +1,25 @@
-$background:     #282524;
-$background-alt: #322f2e;
+$background:      #242220;
+$background-alt:  #2c2928;
 $background-alt2: #44403f;
-$foreground:     #EBDBB2;
-$blue:           #458588;
-$green:          #98971A;
-$red:            #CC241D;
-$yellow:         #bb810b;
-$pink:           #B16286;
-$highlight:      #665C54;
+$foreground:      #EBDBB2;
+$blue:            #458588;
+$green:           #98971A;
+$red:             #CC241D;
+$yellow:          #bb810b;
+$pink:            #B16286;
+$highlight:       #665C54;
 
 * {
   all: unset;
 }
 
 .bar {
-  //background-color: $background;
+  background-color: $background;
   color: $foreground;
-  border-radius: 5px;
+  font-family: "JetBrainsMono Nerd Font"; 
   font-weight: 300;
+  padding: 5px 2px;
+  border-bottom: 1px solid $background-alt2;
 }
 
 .side slider {
@@ -49,12 +51,12 @@ $highlight:      #665C54;
 
 // Workspaces
 .workspaces {
-  background-color: $background;
+  background-color: $background-alt;
   border-radius: 12px;
   padding: 5px;
 
   button {
-    padding: 0px 8px;
+    padding: 0px 6px;
     border-radius: 20px;
     transition: all 0.2s ease;
 
@@ -73,7 +75,7 @@ $highlight:      #665C54;
 
 // Clock
 .clock {
-  background-color: $background;
+  background-color: $background-alt;
   border-radius: 12px;
   padding: 4px 10px;
   margin: 0px 4px;
@@ -87,15 +89,19 @@ $highlight:      #665C54;
 
 // Bluelight
 .bluelight {
-  background-color: $background;
+  background-color: $background-alt;
   border-radius: 20px;
-  padding: 4px 12px;
+  padding: 4px 10px;
   font-size: large;
+}
+.bluelight:hover {
+  background: $background-alt2;
+  transition: 0.2s;
 }
 
 // Music
 .paused {
-  background-color: $background;
+  background-color: $background-alt;
   color: $foreground;
   border-radius: 12px;
   padding: 0px 10px;
@@ -111,6 +117,12 @@ $highlight:      #665C54;
 .music-progress {
   font-size:small;
 }
+.paused-circle {
+  background: $background-alt2;
+}
+.playing-circle {
+  background-color: $highlight;
+}
 
 // Title
 .title {
@@ -123,7 +135,7 @@ $highlight:      #665C54;
 
 // Control
 .control {
-  background-color: $background;
+  background-color: $background-alt;
   border-radius: 12px;
   padding: 0px 10px;
   margin: 0px 5px;
@@ -149,7 +161,7 @@ scale trough {
   margin: 0px 5px 0px 0px;
 }
 .volume-value {
-  margin: 0px 0px 0px 5px;
+  margin: 0px 5px 0px 0px;
 }
 
 // Battery
@@ -168,9 +180,25 @@ scale trough {
   margin: 0px 5px 0px 0px;
 }
 .brightness-value {
-  margin: 0px 0px 0px 5px;
+  margin: 0px 5px 0px 0px;
 }
 
+// System tray
+.tray {
+  border: 1px solid $background-alt2;
+  border-radius: 12px;
+  padding: 0px 8px;
+  margin: 3px 0px;
+}
 
+// RAM
+.ram-progress, .cpu-progress, .disk-progress {
+  font-size: large;
+}
+.ram-circle, .cpu-circle, .disk-circle {
+  background: $background-alt2;
+}
 
-// Net-down
+.control-dot {
+  color: $highlight;
+}

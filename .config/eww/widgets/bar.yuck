@@ -81,6 +81,7 @@
          :width {(music != "") ? 24 : 0}
          :halign "start"
          (circular-progress
+           :class {(music_status == "Playing") ? "playing-circle" : "paused-circle"}
            :value {(music_progress / music_length) * 100}
            :thickness 2.5
            :clockwise true
@@ -112,7 +113,52 @@
        :spacing 12
     (volume)
     (brightness)
-    (battery)))
+    (battery)
+    (label :class "control-dot"
+           :text "•")
+    (stats)
+    (tray)))
+
+
+
+(defwidget stats []
+  (box :class "ram"
+       :orientation "h"
+       :spacing 8
+       :halign "center"
+
+    (box :class "cpu-progress"
+         :width 24
+         :halign "start"
+         (circular-progress
+           :class "cpu-circle"
+           :value {EWW_CPU.avg}
+           :thickness 2
+           :clockwise true
+           :start-at 73
+           (label :text "󰘚")))
+
+    (box :class "ram-progress"
+         :width 24
+         :halign "start"
+         (circular-progress
+           :class "ram-circle"
+           :value {EWW_RAM.used_mem_perc}
+           :thickness 2
+           :clockwise true
+           :start-at 73
+           (label :text "󰍛")))
+
+    (box :class "disk-progress"
+         :width 24
+         :halign "start"
+         (circular-progress
+           :class "disk-circle"
+           :value {EWW_DISK["/"].used_perc}
+           :thickness 2
+           :clockwise true
+           :start-at 73
+           (label :text "󰆼")))))
 
 
 
@@ -125,16 +171,17 @@
       (revealer :transition "slideleft"
                 :reveal vol
                 :duration "0.200ms"
-        (scale :class "volbar" 	  
-			  :value curr_volume
-			  :orientation "h"      
-			  :max 121
-			  :min 0
-        :onchange "wpctl set-volume @DEFAULT_AUDIO_SINK@ {}%"))
-      
+        (box :space-evenly "false"
+          (scale :class "volbar" 	  
+          :value curr_volume
+          :orientation "h"      
+          :max 101
+          :min 0
+          :onchange "wpctl set-volume @DEFAULT_AUDIO_SINK@ {}%")
+          (label :class "volume-value" :orientation "v"	:space-evenly "true" :text "${curr_volume}")))
+
       (button :class "volume-icon"
-              :onclick "scripts/volume.sh" "󰕾")
-       (label :class "volume-value" :orientation "v"	:space-evenly "true" :text "${curr_volume}%"))))
+              :onclick "scripts/volume.sh" "󰕾"))))
 
 
 
@@ -147,7 +194,7 @@
               :halign "end"		
               :text "${bat-icon}")
       (label  :class "battery-percent"
-                :text "${bat-cap}%"))))
+                :text "${bat-cap}"))))
 
 
 
@@ -159,20 +206,27 @@
   			  (revealer :transition "slideleft" 
 			  		        :reveal bright   
 					          :duration "0.200ms"
-  			    (scale :class "brightness" 
-			  	    :value curr-brightness 
-              :onchange "brightnessctl set {}%" 
-              :orientation "h" 
-              :max 101 
-              :min 0))
-  			(label :class "brightness-icon" :text "󰃠")
-        (label :class "brightness-value" :orientation "v"	:space-evenly "true" :text "${curr-brightness}%"))))
+            (box :space-evenly "false"
+              (scale :class "brightness" 
+                :value curr-brightness 
+                :onchange "brightnessctl set {}%" 
+                :orientation "h" 
+                :max 101 
+                :min 0)
+              (label :class "brightness-value" :text "${curr-brightness}")))
+  			(label :class "brightness-icon" :text "󰃠"))))
 
 
 
-(defwidget network []
-  (box  (label  :class "network"
-              :text "󰇚 ${net-down} 󰕒 ${net-up}")))
+(defwidget tray []
+  (systray 
+    :class "tray"
+    :orientation "h"
+    :spacing 6
+    :icon-size 16
+    :prepend-new false))
+
+
 
 (deflisten music :initial "" 
   "playerctl --follow metadata --format '{{artist}} | {{ title }}' || true")
@@ -210,12 +264,7 @@
 (defpoll bat-cap :interval "1s"
 	"scripts/battery.sh percent")
 
-(defpoll net-up :interval "1s"
-	"eww get EWW_NET | jq .wlo1.NET_UP")
-
-(defpoll net-down :interval "1s"
-	"eww get EWW_NET | jq .wlo1.NET_DOWN")
-
 (defvar vol false)
+(defvar volmute false)
 (defvar bat false)
 (defvar bright false)
