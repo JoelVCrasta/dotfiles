@@ -13,28 +13,39 @@ setopt extended_history
 # Enable auto cd
 setopt AUTO_CD
 
+# zsh-autosuggestions config
+ZSH_AUTOSUGGEST_BUFFER_MAX_SIZE=20
+ZSH_AUTOSUGGEST_USE_ASYNC=1
+
 # antidote
 source '/usr/share/zsh-antidote/antidote.zsh'
 antidote load
 source ~/.zsh_plugins.zsh
 
+# completions
+DISABLE_COMPFIX=true
 autoload -Uz compinit
-compinit
+if [ "$(date +%j)" != "$(date -r ~/.zcompdump +%j 2>/dev/null)" ]; then
+  compinit
+else
+  compinit -C
+fi
+
 
 # Aliases
 alias cls="clear"
-alias pr="pkill eww && eww open bar"
+alias pr="pkill -9 eww && eww open bar"
 alias xa="lsd -l"
+alias mvd='cd "$(lsd | fzf)"'
+
+# fnm
+eval "$(fnm env --use-on-cd)"
 
 # starship
 eval "$(starship init zsh)"
 
 # dotfiles
 alias dotfiles='/usr/bin/git --git-dir=/home/joel/.dotfiles --work-tree=/home/joel'
-
-# nvm
-source /usr/share/nvm/init-nvm.sh
-
 
 # >>> conda initialize >>>
 # !! Contents within this block are managed by 'conda init' !!
