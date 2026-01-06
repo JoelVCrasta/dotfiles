@@ -136,7 +136,7 @@
            :thickness 2
            :clockwise true
            :start-at 73
-           (label :text "󰘚")))
+           (label :text "󰍛")))
 
     (box :class "ram-progress"
          :width 24
@@ -147,7 +147,7 @@
            :thickness 2
            :clockwise true
            :start-at 73
-           (label :text "󰍛")))
+           (label :text "󰘚")))
 
     (box :class "disk-progress"
          :width 24
