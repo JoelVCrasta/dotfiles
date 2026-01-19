@@ -32,7 +32,8 @@ antidote load
 # Aliases
 alias cls="clear"
 alias pr="pkill -9 eww && eww open bar"
-alias xa="lsd -l"
+alias xs="lsd -l"
+alias xa="lsd -la"
 alias mvd='cd "$(lsd | fzf)"'
 
 # fnm
@@ -50,3 +51,4 @@ export PATH="$PATH:/home/joel/.lmstudio/bin"
 
 # conda
 [[ -f /opt/miniconda3/etc/profile.d/conda.sh ]] && source /opt/miniconda3/etc/profile.d/conda.sh
+
