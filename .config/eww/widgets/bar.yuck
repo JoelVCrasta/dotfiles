@@ -4,8 +4,6 @@
     (middle)
     (control)))
 
-
-
 (defwidget middle []
   (centerbox :orientation "h"
              :class "middle"
@@ -14,14 +12,10 @@
     (workspaces)
     (midleft)))
 
-
-
 (defwidget midleft []
   (box :space-evenly false
     (clock)
     (bluelight)))
-
-
 
 (defwidget clock []
   (box :class "clock"
@@ -36,17 +30,13 @@
   (label :class "date"
          :text "${date}")))
 
-
-
 (defwidget bluelight []
 (box :orientation "h"
-     :space-evenly false
-     :halign "start"
-  (button :class "bluelight"
+     :space-evenly true
+     :halign "start" 
+  (button :class {(bluelight_active == "true") ? "bluelight-on" : "bluelight-off"}
           :onclick "scripts/bluelight.sh" 
           "󰤄")))
-
-
 
 (defwidget workspaces []
   (box :class "workspaces"
@@ -68,8 +58,6 @@
   (button :class {active_workspace == id ? "active" : ""}
           :onclick "hyprctl dispatch workspace ${id}"
           id))
-
-
 
 (defwidget music []
   (box :class {(music_status == "Playing") ? "playing" : "paused"}
@@ -93,8 +81,6 @@
            :limit-width 28
            :text "${(music != "") ? "${music}" : "≧◉◡◉≦ | nothing is playing"}")))
 
-
-
 (defwidget title []
   (box :class "title"
        :orientation "h"
@@ -103,30 +89,26 @@
     (label :limit-width 40 
            :text "${(window_title != "null") ? window_title : " Hyprland"}")))
 
-
-
 (defwidget control []
   (box :class "control"
        :orientation "h"
        :space-evenly false
        :halign "end"
-       :spacing 12
+       :spacing 10
     (volume)
     (brightness)
+    (warp)
     (battery)
     (label :class "control-dot"
            :text "•")
     (stats)
     (tray)))
 
-
-
 (defwidget stats []
   (box :class "ram"
        :orientation "h"
        :spacing 8
        :halign "center"
-
     (box :class "cpu-progress"
          :width 24
          :halign "start"
@@ -137,7 +119,6 @@
            :clockwise true
            :start-at 73
            (label :text "󰍛")))
-
     (box :class "ram-progress"
          :width 24
          :halign "start"
@@ -148,7 +129,6 @@
            :clockwise true
            :start-at 73
            (label :text "󰘚")))
-
     (box :class "disk-progress"
          :width 24
          :halign "start"
@@ -160,61 +140,60 @@
            :start-at 73
            (label :text "󰆼")))))
 
-
-
 (defwidget volume []
   (eventbox
     :onhover "eww update vol=true"
     :onhoverlost "eww update vol=false"
-    (box :orientation "h" 	  
-			   :space-evenly "false"
+    (box :orientation "h"       
+               :space-evenly "false"
       (revealer :transition "slideleft"
                 :reveal vol
-                :duration "0.200ms"
+                :duration "200ms"
         (box :space-evenly "false"
-          (scale :class "volbar" 	  
+          (scale :class "volbar"       
           :value curr_volume
           :orientation "h"      
           :max 101
           :min 0
           :onchange "wpctl set-volume @DEFAULT_AUDIO_SINK@ {}%")
-          (label :class "volume-value" :orientation "v"	:space-evenly "true" :text "${curr_volume}")))
-
+          (label :class "volume-value" :text "${curr_volume}%")))
       (button :class "volume-icon"
-              :onclick "scripts/volume.sh" "󰕾"))))
-
-
+              :onclick "scripts/volume.sh" 
+              {volume_muted == "true" ? "󰝟" : "󰕾"}))))
 
 (defwidget battery []
-  (box  :orientation "h"	
+  (box  :orientation "h"    
         :space-evenly "false"
-    (label	:class "battery"		
-            :halign "end"		
-            :text "${bat-icon}")
+    (label  :class "battery"        
+            :halign "end"        
+            :text "${bat_icon}")
     (label  :class "battery-percent"
-              :text "${bat-cap}%")))
+              :text "${bat_cap}%")))
 
-
+(defwidget warp []
+  (box  :orientation "h"    
+        :space-evenly "false"
+    (button :class "warp"
+            :onclick "scripts/warp.sh toggle"
+            {warp_active == "true" ? "󰕥" : "󰦞"})))
 
 (defwidget brightness []
   (eventbox :onhover "eww update bright=true"   
-  			:onhoverlost "eww update bright=false"
-  			(box  :orientation "h"  
-			  		  :space-evenly "false"  
-  			  (revealer :transition "slideleft" 
-			  		        :reveal bright   
-					          :duration "0.200ms"
+              :onhoverlost "eww update bright=false"
+              (box  :orientation "h"  
+                        :space-evenly "false"  
+                (revealer :transition "slideleft" 
+                              :reveal bright   
+                              :duration "200ms"
             (box :space-evenly "false"
               (scale :class "brightness" 
-                :value curr-brightness 
+                :value curr_brightness 
                 :onchange "brightnessctl set {}%" 
                 :orientation "h" 
                 :max 101 
                 :min 0)
-              (label :class "brightness-value" :text "${curr-brightness}")))
-  			(label :class "brightness-icon" :text "󰃠"))))
-
-
+              (label :class "brightness-value" :text "${curr_brightness}%")))
+              (label :class "brightness-icon" :text "󰃠"))))
 
 (defwidget tray []
   (systray 
@@ -250,18 +229,26 @@
 (defpoll active_workspace :interval "0.2s"
   "hyprctl activeworkspace -j | jq -r '.id'")
 
+(defpoll volume_muted :interval "1s"
+  "wpctl get-volume @DEFAULT_AUDIO_SINK@ | grep -q '\\[MUTED\\]' && echo true || echo false")
+
 (defpoll curr_volume :interval "1s" 
   "pactl get-sink-volume @DEFAULT_SINK@ | awk '{print $5}' | tr -d '%'")
 
-(defpoll curr-brightness :interval "1s" 
+(defpoll curr_brightness :interval "1s" 
   "brightnessctl -m | awk -F, '{print substr($4, 0, length($4)-1)}' | tr -d '%'")
 
-(defpoll bat-icon :interval "1s"
-	"scripts/battery.sh icon")
+(defpoll bluelight_active :interval "1s"
+  "pgrep -x 'hyprsunset' > /dev/null && echo true || echo false")
 
-(defpoll bat-cap :interval "1s"
-	"scripts/battery.sh percent")
+(defpoll bat_icon :interval "10s"
+    "scripts/battery.sh icon")
+
+(defpoll bat_cap :interval "10s"
+    "scripts/battery.sh percent")
+
+(defpoll warp_active :interval "0.1s"
+    "scripts/warp.sh status")
 
 (defvar vol false)
-(defvar volmute false)
 (defvar bright false)
