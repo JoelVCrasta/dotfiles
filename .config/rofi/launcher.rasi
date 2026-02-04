@@ -1,14 +1,16 @@
 configuration {
   modes: [ drun ];
   show-icons: true;
-  display-drun: "  Applications";
+  display-drun: " Applications";
   drun-display-format: "{name}";
+  show-icons: true;
+  icon-theme: "Gruvbox-Plus-Dark";
 }
 
 @import "colors/gruvbox.rasi"
 
 * {
-    font: "JetBrains Mono Nerd Font 10";
+    font: "JetBrainsMono Nerd Font 10";
 }
 
 /*****----- Window Box -----*****/
