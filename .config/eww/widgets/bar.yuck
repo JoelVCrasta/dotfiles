@@ -56,30 +56,31 @@
 
 (defwidget workspace-button [id]
   (button :class {active_workspace == id ? "active" : ""}
-          :onclick "hyprctl dispatch workspace ${id}"
+          :onclick "hyprctl eval \"hl.dispatch(hl.dsp.focus({ workspace = '${id}' }))\""
           id))
 
 (defwidget music []
-  (box :class {(music_status == "Playing") ? "playing" : "paused"}
-       :orientation "h"
-       :space-evenly false
-       :halign "end"
-       :spacing {(music != "") ? 10 : 0}
-    (box :class "music-progress"
-         :width {(music != "") ? 24 : 0}
-         :halign "start"
-         (circular-progress
+  (button :onclick "scripts/toggleplayer.sh"
+    (box :class {(music_status == "Playing") ? "playing" : "paused"}
+         :orientation "h"
+         :space-evenly false
+         :halign "end"
+         :spacing {(music != "") ? 10 : 0}
+      (box :class "music-progress"
+           :width {(music != "") ? 24 : 0}
+           :halign "start"
+        (circular-progress
            :class {(music_status == "Playing") ? "playing-circle" : "paused-circle"}
-           :value {(music_progress / music_length) * 100}
+           :value {(music_position / music_length) * 100}
            :thickness 2.5
            :clockwise true
            :start-at 73
            (button :onclick "scripts/music.sh play-pause" 
                    "${(music != "") ? ((music_status == "Playing") ? "" : "") : ""}")))
-    (label :class "music-text"
-           :halign "start"
-           :limit-width 28
-           :text "${(music != "") ? "${music}" : "≧◉◡◉≦ | nothing is playing"}")))
+      (label :class "music-text"
+             :halign "start"
+             :limit-width 28
+             :text "${(music != "") ? "${music}" : "≧◉◡◉≦ | nothing is playing"}"))))
 
 (defwidget title []
   (box :class "title"
@@ -175,7 +176,7 @@
         :space-evenly "false"
     (button :class "warp"
             :onclick "scripts/warp.sh toggle"
-            {warp_active == "true" ? "󰕥" : "󰦞"})))
+            {warp_active == "true" ? "󰌾" : "󱙱"})))
 
 (defwidget brightness []
   (eventbox :onhover "eww update bright=true"   
@@ -207,15 +208,6 @@
 
 (deflisten music :initial "" 
   "playerctl --follow metadata --format '{{artist}} | {{ title }}' || true")
-
-(defpoll music_progress :interval "2s"
-  "playerctl position || echo 0")
-
-(defpoll music_length :interval "2s"
-  "playerctl metadata mpris:length | awk '{print $1 / 1000000}' || echo 1")
-
-(defpoll music_status :interval "1s"
-  "playerctl status || echo 'Stopped'")
 
 (defpoll time :interval "10s"
   "date '+%I:%M'")

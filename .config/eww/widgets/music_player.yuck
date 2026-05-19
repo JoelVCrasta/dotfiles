@@ -1,0 +1,80 @@
+(defwidget music_player []
+  (box :class "music_player"
+       :orientation "h"
+       :space-evenly false
+       :spacing 20
+    (canvas)
+    (details)))
+
+(defwidget canvas []
+  (box :class "canvas"
+       :width 120
+       :height 120
+       :style "background-image: url('${canvas != "" ? canvas : "${EWW_CONFIG_DIR}/assets/canvas_placeholder.png"}');"))
+
+(defwidget details []
+  (box :class "details"
+       :orientation "v"
+       :halign "start"
+       :valign "start"
+       :spacing 2
+    (music_info)
+    (music_bar)
+    (music_controls)))
+
+(defwidget music_info []
+  (box :orientation "v"
+  (label :class "title_info"
+         :halign "start"
+         :text {title != "" ? title : "Not Playing"})
+  (label :class "artist_info"
+         :halign "start"
+         :text {artist != "" ? artist : "No Artist"})))
+
+(defwidget music_bar []
+  (box :class "music_bar"
+       :space-evenly false
+      (label :class "music_time" :halign "start" :text music_position_readable)
+      (scale :min 0
+             :width 200
+             :max {music_length != "" ? music_length : 100}
+             :value {music_position != "" ? music_position : 0}
+             :onchange "playerctl position {}")
+      (label :class "music_time" :halign "end" :text music_length_readable)))
+
+(defwidget music_controls []
+  (box :class "controls"
+       :orientation "h"
+       :space-evenly false
+       :halign "center"
+       :spacing 60
+       (button :onclick "scripts/music.sh previous" "")
+       (button :onclick "scripts/music.sh play-pause" "${(music_status == "Playing") ? "" : ""}")
+       (button :onclick "scripts/music.sh next" "")))
+
+
+
+(deflisten artist :initial ""
+  "playerctl --follow metadata --format '{{ artist }}' || true")
+
+(deflisten title :initial ""
+  "playerctl --follow metadata --format '{{ title }}' || true")
+
+(deflisten canvas :initial ""
+  "playerctl --follow metadata --format '{{ mpris:artUrl }}' | sed -u 's/^file:\\/\\///' || true")
+
+
+(defpoll music_status :interval "1s"
+  "playerctl status || echo 'Stopped'")
+
+(defpoll music_length :interval "1s"
+  "playerctl metadata mpris:length | awk '{print $1 / 1000000}' || echo 1")
+
+(defpoll music_position :interval "1s"
+  "playerctl position || echo 0")
+
+(defpoll music_length_readable :interval "1s"
+  "date -u -d @$(expr $(playerctl metadata mpris:length || echo 0) / 1000000) +%M:%S || echo '00:00'")
+
+(defpoll music_position_readable :interval "1s"
+  "date -u -d @$(playerctl position | cut -d. -f1) +%M:%S || echo '00:00'")

@@ -1,4 +1,5 @@
 (include "widgets/bar.yuck")
+(include "widgets/music_player.yuck")
 
 (defwindow bar
   :monitor 0
@@ -11,4 +12,16 @@
   :reserve (struts :side "top" :distance "0%")
   :exclusive true
   (bar)
+)
+
+(defwindow music_player
+  :monitor 0
+  :windowtype "normal"
+  :geometry (geometry :x "570px"
+                      :y "6px"
+                      :width "430px"
+                      :height "120px")
+  :exclusive false
+  :focusable false
+  (music_player)
 )
