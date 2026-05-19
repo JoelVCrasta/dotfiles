@@ -43,12 +43,18 @@ eval "$(fnm env --use-on-cd)"
 eval "$(starship init zsh)"
 
 # dotfiles
-alias dotf='/usr/bin/git --git-dir=$HOME/.dotfiles --work-tree=$HOME'
+alias dotf="lazygit --git-dir=$HOME/.dotfiles --work-tree=$HOME"
 
-# Added by LM Studio CLI (lms)
+# lmstudio cli
 export PATH="$PATH:/home/joel/.lmstudio/bin"
-# End of LM Studio CLI section
 
 # conda
 [[ -f /opt/miniconda3/etc/profile.d/conda.sh ]] && source /opt/miniconda3/etc/profile.d/conda.sh
 
+export PATH="$HOME/.local/bin:$PATH"
+
+# jetbrains toolbox
+export PATH="$PATH:/home/joel/.local/share/JetBrains/Toolbox/scripts"
+
+# opencode
+export PATH=/home/joel/.opencode/bin:$PATH
