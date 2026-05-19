@@ -1,0 +1,24 @@
+{
+  "Lua.workspace.library": [
+    "/usr/share/hypr/stubs"
+  ],
+  "Lua.diagnostics.globals": [
+    "hl",
+    "terminal",
+    "filemanager",
+    "emoji_picker",
+    "screenshot_area",
+    "menu",
+    "screenshot_window",
+    "screenshot_all",
+    "wlog",
+    "brave_browser",
+    "zen_browser",
+    "copyq",
+    "codeEditor",
+    "waypaper",
+    "eww_reload",
+    "code_editor",
+    "file_manager"
+  ]
+}
