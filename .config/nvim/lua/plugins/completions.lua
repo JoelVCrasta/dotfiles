@@ -13,11 +13,11 @@ return {
 	},
 	{
 		"antosha417/nvim-lsp-file-operations",
-		config = {},
+		opts = {},
 	},
 	{
 		"folke/lazydev.nvim",
-		config = {},
+		opts = {},
 	},
 	{
 		"L3MON4D3/LuaSnip",
