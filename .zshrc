@@ -48,13 +48,13 @@ alias dotf="lazygit --git-dir=$HOME/.dotfiles --work-tree=$HOME"
 # lmstudio cli
 export PATH="$PATH:/home/joel/.lmstudio/bin"
 
-# conda
-[[ -f /opt/miniconda3/etc/profile.d/conda.sh ]] && source /opt/miniconda3/etc/profile.d/conda.sh
+# pyenv
+export PYENV_ROOT="$HOME/.pyenv"
+[[ -d $PYENV_ROOT/bin ]] && export PATH="$PYENV_ROOT/bin:$PATH"
+eval "$(pyenv init - zsh)"
 
 export PATH="$HOME/.local/bin:$PATH"
 
 # jetbrains toolbox
 export PATH="$PATH:/home/joel/.local/share/JetBrains/Toolbox/scripts"
 
-# opencode
-export PATH=/home/joel/.opencode/bin:$PATH
